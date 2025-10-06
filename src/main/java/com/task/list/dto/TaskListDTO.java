@@ -1,5 +1,7 @@
 package com.task.list.dto;
 
+import com.task.list.entity.TaskList;
+
 public class TaskListDTO {
 
     private Long id;
@@ -10,6 +12,14 @@ public class TaskListDTO {
     private int priority;
 
     public TaskListDTO() {
+    }
+
+    public TaskListDTO(TaskList entity){
+            id = entity.getId();
+            name = entity.getName();
+            description = entity.getDescription();
+            performed = entity.isPerformed();
+            priority = entity.getPriority();
     }
 
     public TaskListDTO(Long id, String name, String description, boolean performed, int priority) {

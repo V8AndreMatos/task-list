@@ -15,10 +15,10 @@ public class TaskList {
     private boolean performed;
     private int priority;
 
-    public Task() {
+    public TaskList() {
     }
 
-    public Task(Long id, String name, String description, boolean performed, int priority) {
+    public TaskList(Long id, String name, String description, boolean performed, int priority) {
         this.id = id;
         this.name = name;
         this.description = description;
