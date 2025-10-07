@@ -1,15 +1,24 @@
 package com.task.list.dto;
 
 import com.task.list.entity.TaskList;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 
 public class TaskListDTO {
 
     private Long id;
 
+    @NotBlank(message = "Name is required")
     private String name;
+
+    @NotBlank(message = "Description is required")
     private String description;
+
+    @NotNull(message = "Priority is required")
+    @Min(value = 1, message = "Priority must be greater than zero")
+    private Integer priority;
+
     private boolean performed;
-    private int priority;
 
     public TaskListDTO() {
     }

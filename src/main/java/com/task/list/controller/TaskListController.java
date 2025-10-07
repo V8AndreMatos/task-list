@@ -2,10 +2,13 @@ package com.task.list.controller;
 
 import com.task.list.dto.TaskListDTO;
 import com.task.list.service.TaskListService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import java.net.URI;
 
 import java.util.List;
 
@@ -29,11 +32,13 @@ public class TaskListController {
     }
 
     @PostMapping
-    @ResponseBody
-    public ResponseEntity<String> insertTaskList(@RequestBody TaskListDTO taskListDTO) {
-        taskListService.insertTaskList(taskListDTO);
-        return ResponseEntity.ok().body("Task successfully added");
+    public ResponseEntity<TaskListDTO> insertTask(@Valid @RequestBody TaskListDTO dto) {
+        TaskListDTO created = taskListService.insertTaskList(dto);
+        URI uri = URI.create("/tasks/" + created.getId()); // location of the new resource
+        return ResponseEntity.created(uri).body(created);
     }
+
+
 
 
     @PutMapping
