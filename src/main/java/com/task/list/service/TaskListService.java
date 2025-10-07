@@ -9,6 +9,7 @@ import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskListService {
@@ -24,11 +25,12 @@ public class TaskListService {
 
     //Find by Id
     public TaskListDTO findById(Long id){
+        System.out.println("Searching for task with ID : " + id);
         TaskList taskList = taskListRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id " +id+ " not found "));
         return new TaskListDTO(taskList);
     }
 
-    // Save User
+    // Save TaskList
     public TaskListDTO saveTaskList(TaskListDTO taskListDTO){
 
         // DTO -> Entity
@@ -46,6 +48,37 @@ public class TaskListService {
         return new TaskListDTO(taskListSaved.getId() , taskListSaved.getName() ,
                 taskListSaved.getDescription(), taskListSaved.isPerformed(),
                 taskListSaved.getPriority());
+    }
+
+    // Insert new taskList
+    // Service
+    public TaskListDTO insertTaskList(TaskListDTO taskListDTO) {
+        TaskList taskList = new TaskList();
+
+        // Copy to DTO to entity
+        taskList.setName(taskListDTO.getName());
+        taskList.setDescription(taskListDTO.getDescription());
+        taskList.setPerformed(taskListDTO.isPerformed());
+        taskList.setPriority(taskListDTO.getPriority());
+
+        taskList = taskListRepository.save(taskList);
+        return new TaskListDTO(taskList);
+    }
+
+
+    //Update a tasklist
+
+    public TaskListDTO updateTaskList(Long id, TaskListDTO taskListDTO) {
+        TaskList taskList = taskListRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Id " + id + " not found"));
+
+        taskList.setName(taskListDTO.getName());
+        taskList.setDescription(taskListDTO.getDescription());
+        taskList.setPerformed(taskListDTO.isPerformed());
+        taskList.setPriority(taskListDTO.getPriority());
+
+        TaskList updated = taskListRepository.save(taskList);
+        return new TaskListDTO(updated);
     }
 
 

@@ -1,0 +1,1 @@
+INSERT INTO tb_task(name, description, performed, priority)VALUES('NEW USER' , 'NEW USER ADDED', TRUE, 1);
