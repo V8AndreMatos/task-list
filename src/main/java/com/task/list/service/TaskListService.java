@@ -18,10 +18,13 @@ public class TaskListService {
     private TaskListRepository taskListRepository;
 
     // Find all tasks
-    public List<TaskListDTO> findAllTasks(){
-            List<TaskList> tasks = taskListRepository.findAll();
-            return tasks.stream().map(x -> new TaskListDTO()).toList();
+    public List<TaskListDTO> findAllTasks() {
+        List<TaskList> tasks = taskListRepository.findAll();
+        return tasks.stream()
+                .map(TaskListDTO::new) // <-- pass the object correctly
+                .toList();
     }
+
 
     //Find by Id
     public TaskListDTO findById(Long id){
@@ -67,7 +70,6 @@ public class TaskListService {
 
 
     //Update a tasklist
-
     public TaskListDTO updateTaskList(Long id, TaskListDTO taskListDTO) {
         TaskList taskList = taskListRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Id " + id + " not found"));
@@ -82,13 +84,12 @@ public class TaskListService {
     }
 
 
-
     // Delete By Id
-    public void deleteById(Long id){
-        if (!taskListRepository.existsById(id)){
-            throw new ResourceNotFoundException(id);
+    public void deleteById(Long id) {
+        if (!taskListRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Id " + id + " not found");
         }
         taskListRepository.deleteById(id);
-
     }
+
 }

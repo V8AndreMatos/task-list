@@ -20,12 +20,12 @@ public class TaskListController {
     private TaskListService taskListService;
 
     @GetMapping
-    public List<TaskListDTO> findAll(){
+    public List<TaskListDTO> findAllTasks() {
         return taskListService.findAllTasks();
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<TaskListDTO> findById(@PathVariable Long id){
+    public ResponseEntity<TaskListDTO> findById(@PathVariable Long id) {
 
         TaskListDTO taskListDTO = taskListService.findById(id);
         return ResponseEntity.ok(taskListDTO);
@@ -39,23 +39,21 @@ public class TaskListController {
     }
 
 
+    @PutMapping("/{id}")
+    public ResponseEntity<TaskListDTO> updateTaskList(@PathVariable Long id,
+                                                      @RequestBody TaskListDTO taskListDTO) {
 
-
-    @PutMapping
-    public ResponseEntity<TaskListDTO> updateTaskList(@PathVariable Long id , TaskListDTO taskListDTO){
-
-        taskListDTO = taskListService.updateTaskList(id , taskListDTO);
+        taskListDTO = taskListService.updateTaskList(id, taskListDTO);
 
         return ResponseEntity.ok().body(taskListDTO);
-
-
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteById(@PathVariable Long id){
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         taskListService.deleteById(id);
-       return ResponseEntity.ok().body("Id " +id+ " successfully deleted");
+        return ResponseEntity.noContent().build(); // return 204 No Content
     }
 
 }
+
+
